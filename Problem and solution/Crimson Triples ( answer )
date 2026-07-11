@@ -1,0 +1,27 @@
+#include <iostream>
+
+void solve() {
+    long long n;
+    std::cin >> n;
+    
+    long long total_triples = 0;
+    for (long long b = 1; b <= n; ++b) {
+        long long choices = n / b;
+        total_triples += choices * choices;
+    }
+    
+    std::cout << total_triples << "\n";
+}
+
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+    
+    int t;
+    std::cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
