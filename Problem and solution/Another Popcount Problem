@@ -1,4 +1,3 @@
-
 A. Another Popcount Problem
 time limit per test1 second
 memory limit per test256 megabytes
@@ -39,8 +38,6 @@ Output
 For each test case, output a single integer — the maximum possible value of ∑ki=1popcount(ai)
 .
 
-Example
-InputCopy
 6
 2 1
 3 1
@@ -48,13 +45,16 @@ InputCopy
 14142 137205
 1000000 100
 1000000 1000000
-OutputCopy
+
+
 1
 2
 4
 14142
 1322
 1000000
+
+
 Note
 In the first test case, n=2
  and k=1
@@ -76,3 +76,53 @@ In the third test case, n=6
 . The sum is 3+3=6≤6
 , and the total popcount is popcount(3)+popcount(3)=2+2=4
 .
+
+
+
+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+Answer : #include <iostream>
+
+void solve() {
+    long long n, k;
+    std::cin >> n >> k;
+    
+    long long total_popcount = 0;
+    long long current_bit_value = 1;
+    
+    while (n > 0) {
+        // Total value if we set this bit in all k numbers
+        long long max_take_value = k * current_bit_value;
+        
+        if (n >= max_take_value) {
+            // We can afford to set this bit in all k elements
+            total_popcount += k;
+            n -= max_take_value;
+        } else {
+            // We can only afford a partial amount of this bit
+            total_popcount += (n / current_bit_value);
+            break; // No need to continue as higher bits cost even more
+        }
+        
+        // Move to the next bit position (2^j)
+        // Prevent potential overflow if current_bit_value exceeds n
+        if (current_bit_value > n) {
+            break;
+        }
+        current_bit_value *= 2;
+    }
+    
+    std::cout << total_popcount << "\n";
+}
+
+int main() {
+    std::ios_base::sync_with_stdio(false);
+    std::cin.tie(NULL);
+    
+    int t;
+    std::cin >> t;
+    while (t--) {
+        solve();
+    }
+    
+    return 0;
+}
